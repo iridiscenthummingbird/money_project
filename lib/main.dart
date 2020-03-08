@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Wallet.dart';
 import 'WalletPage.dart';
 import 'OperationPage.dart';
-import 'User.dart';
 
  class MyApp extends StatelessWidget{
   @override
@@ -21,14 +19,7 @@ import 'User.dart';
   }
  }
 
-
-
 void main(){
-  User user = User();
-
-  user.listOfWallets = [
-    Wallet("Wallet", 500.0)
-  ];
-  print(user.listOfWallets);
+  
   runApp(MyApp());
 }
