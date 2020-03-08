@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'WalletPage.dart';
-import 'OperationPage.dart';
+import 'pages/WalletPage.dart';
+import 'pages/OperationPage.dart';
 
  class MyApp extends StatelessWidget{
   @override
