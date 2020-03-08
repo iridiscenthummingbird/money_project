@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-import 'MyDrawer.dart';
+import 'Wallet.dart';
+import 'WalletPage.dart';
+import 'OperationPage.dart';
+import 'User.dart';
 
  class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        '/':(context) => OperationPage(),
+        '/walletPage':(context) => WalletPage()
+      },
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
       theme: ThemeData(
         primaryColor: Colors.green
       ),
@@ -14,23 +21,14 @@ import 'MyDrawer.dart';
   }
  }
 
-class MyHomePage extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Flutter"),
-      ),
-      drawer: MyDrawer(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Colors.green,
-      ),
-    );
-  }
 
-}
 
 void main(){
+  User user = User();
+
+  user.listOfWallets = [
+    Wallet("Wallet", 500.0)
+  ];
+  print(user.listOfWallets);
   runApp(MyApp());
 }
