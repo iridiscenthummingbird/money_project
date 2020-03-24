@@ -1,9 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/Wallet.dart';
 import '../MyDrawer.dart';
+import 'EditingWalletPage.dart';
 
-class WalletPage extends StatelessWidget{
+class WalletPage extends StatefulWidget{
+  @override
+  WalletPageState createState() => WalletPageState();
+}
+
+class WalletPageState extends State<WalletPage>{
   List<Wallet> listOfWallets = [Wallet("Wallet", 500.0), Wallet("Card", 1000.0)];
+  
+  void delete(dynamic val){
+    setState(() => listOfWallets.removeWhere((data) => data == val));
+  }
+  
+  void edit(dynamic val) async{
+    int ind = listOfWallets.indexOf(val);
+
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditingWalletPage(val),),);
+
+    setState((){
+      if(result != null){
+      listOfWallets.replaceRange(ind, ind+1, [result]);
+      }
+    });
+  }
+
+  void add() async{
+
+    final result = await Navigator.pushNamed(context, '/addingWalletPage');
+
+    setState(() {
+      if(result != null){
+        listOfWallets.add(result);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,41 +44,75 @@ class WalletPage extends StatelessWidget{
       appBar: AppBar(
         title: Text("WalletPage"),
       ),
-      body: Column(
-        children: <Widget>[
-          ListTile(
-              title: Text(listOfWallets[0].name),
-              subtitle: Text('\$'+listOfWallets[0].amount.toString()),
-              trailing: IconButton(
-                onPressed: (){},
-                icon: Icon(Icons.menu),
-              ),
-              leading: CircleAvatar(
-                child: Icon(Icons.account_balance_wallet),
-                backgroundColor: Colors.green,
-              ),
-          ),
-          ListTile(
-              title: Text(listOfWallets[1].name),
-              subtitle: Text('\$'+listOfWallets[1].amount.toString()),
-              trailing: IconButton(
-                onPressed: (){},
-                icon: Icon(Icons.menu),
-              ),
-              leading: CircleAvatar(
-                child: Icon(Icons.credit_card),
-                backgroundColor: Colors.green,
-              ),
-          )
-        ],
+      body: ListView(
+        children: listOfWallets.map((Wallet wallet){
+          return ListTile(
+            title: Text(wallet.name),
+            subtitle: Text('\$'+wallet.amount.toString()),
+            trailing: PopupMenuButton(
+              onSelected: (val){
+                if(val[1] == 'delete'){
+                  delete(val[0]);
+                }
+                else if(val[1] == 'edit'){
+                  edit(val[0]);
+                }
+              },
+              icon: Icon(Icons.menu), 
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: [wallet, 'edit'],
+                  child: Text('Edit'),
+                ),
+                PopupMenuItem(
+                  value: [wallet, 'delete'],
+                  child: Text('Delete'),
+                ),
+              ],
+            ),
+            leading: CircleAvatar(
+              child: Icon(Icons.account_balance_wallet),
+              backgroundColor: Colors.green,
+            )
+          );
+        }).toList()
       ),
       drawer: MyDrawer(),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: add,
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
     );
   }
-
 }
+
+
+
+
+        // <Widget>[
+        //   ListTile(
+        //       title: Text(listOfWallets[0].name),
+        //       subtitle: Text('\$'+listOfWallets[0].amount.toString()),
+        //       trailing: IconButton(
+        //         onPressed: (){},
+        //         icon: Icon(Icons.menu),
+        //       ),
+        //       leading: CircleAvatar(
+        //         child: Icon(Icons.account_balance_wallet),
+        //         backgroundColor: Colors.green,
+        //       ),
+        //   ),
+        //   ListTile(
+        //       title: Text(listOfWallets[1].name),
+        //       subtitle: Text('\$'+listOfWallets[1].amount.toString()),
+        //       trailing: IconButton(
+        //         onPressed: (){},
+        //         icon: Icon(Icons.menu),
+        //       ),
+        //       leading: CircleAvatar(
+        //         child: Icon(Icons.credit_card),
+        //         backgroundColor: Colors.green,
+        //       ),
+        //   )
+        // ],
