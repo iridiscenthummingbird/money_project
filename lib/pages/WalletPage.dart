@@ -50,6 +50,7 @@ class WalletPageState extends State<WalletPage>{
             title: Text(wallet.name),
             subtitle: Text('\$'+wallet.amount.toString()),
             trailing: PopupMenuButton(
+              padding: const EdgeInsets.all(0.0),
               onSelected: (val){
                 if(val[1] == 'delete'){
                   delete(val[0]);
@@ -62,11 +63,17 @@ class WalletPageState extends State<WalletPage>{
               itemBuilder: (context) => [
                 PopupMenuItem(
                   value: [wallet, 'edit'],
-                  child: Text('Edit'),
+                  child: ListTile(
+                    leading: Icon(Icons.edit),
+                    title: Text('Edit'),
+                  ),
                 ),
                 PopupMenuItem(
                   value: [wallet, 'delete'],
-                  child: Text('Delete'),
+                  child: ListTile(
+                    leading: Icon(Icons.delete),
+                    title: Text('Delete'),
+                  ),
                 ),
               ],
             ),
@@ -86,33 +93,3 @@ class WalletPageState extends State<WalletPage>{
     );
   }
 }
-
-
-
-
-        // <Widget>[
-        //   ListTile(
-        //       title: Text(listOfWallets[0].name),
-        //       subtitle: Text('\$'+listOfWallets[0].amount.toString()),
-        //       trailing: IconButton(
-        //         onPressed: (){},
-        //         icon: Icon(Icons.menu),
-        //       ),
-        //       leading: CircleAvatar(
-        //         child: Icon(Icons.account_balance_wallet),
-        //         backgroundColor: Colors.green,
-        //       ),
-        //   ),
-        //   ListTile(
-        //       title: Text(listOfWallets[1].name),
-        //       subtitle: Text('\$'+listOfWallets[1].amount.toString()),
-        //       trailing: IconButton(
-        //         onPressed: (){},
-        //         icon: Icon(Icons.menu),
-        //       ),
-        //       leading: CircleAvatar(
-        //         child: Icon(Icons.credit_card),
-        //         backgroundColor: Colors.green,
-        //       ),
-        //   )
-        // ],
