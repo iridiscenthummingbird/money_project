@@ -37,7 +37,7 @@ class ChoosingIconForWalletState extends State<ChoosingIconForWallet> {
     Icons.hotel,
     Icons.account_balance,
     Icons.home,
-    Icons.kitchen,
+    Icons.monetization_on,
     Icons.work,
   ];
 
