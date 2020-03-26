@@ -53,6 +53,10 @@ class DBProvider {
   Future<void> insertTr(Transaction transaction) async {
     await _database.insert('trHistory', transaction.toMap(), conflictAlgorithm: ConflictAlgorithm.replace,);
   }
+
+  Future<List<Transaction>> getTrsList(Transaction transaction) async {
+    
+  }
 }
 
 
