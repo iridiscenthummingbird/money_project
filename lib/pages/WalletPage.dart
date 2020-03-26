@@ -9,7 +9,7 @@ class WalletPage extends StatefulWidget{
 }
 
 class WalletPageState extends State<WalletPage>{
-  List<Wallet> listOfWallets = [Wallet("Wallet", 500.0), Wallet("Card", 1000.0)];
+  List<Wallet> listOfWallets = [Wallet("Wallet", 500.0), Wallet("Card", 1000.0, icon: Icons.credit_card)];
   
   void delete(dynamic val){
     setState(() => listOfWallets.removeWhere((data) => data == val));
@@ -29,7 +29,7 @@ class WalletPageState extends State<WalletPage>{
 
   void add() async{
 
-    final result = await Navigator.pushNamed(context, '/addingWalletPage');
+    final result = await Navigator.pushNamed(context, '/choosingWalletCreation');
 
     setState(() {
       if(result != null){
@@ -78,7 +78,7 @@ class WalletPageState extends State<WalletPage>{
               ],
             ),
             leading: CircleAvatar(
-              child: Icon(Icons.account_balance_wallet),
+              child: Icon(wallet.icon),
               backgroundColor: Colors.green,
             )
           );

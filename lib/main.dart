@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:money_project/pages/AddingOperationPage.dart';
 import 'package:money_project/pages/AddingWalletPage.dart';
+import 'pages/ChoosingWalletCreation.dart';
 import 'pages/WalletPage.dart';
 import 'pages/OperationPage.dart';
 
@@ -11,7 +13,9 @@ import 'pages/OperationPage.dart';
       routes: {
         '/':(context) => OperationPage(),
         '/walletPage':(context) => WalletPage(),
-        '/addingWalletPage':(context) => AddingWalletPage()
+        '/addingWalletPage':(context) => AddingWalletPage(),
+        '/addingOperationPage':(context) => AddingOperationPage(),
+        '/choosingWalletCreation':(context) => ChoosingWalletCreation()
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
