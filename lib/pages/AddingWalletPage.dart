@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/Wallet.dart';
+import 'package:money_project/pages/ChoosingIconForWallet.dart';
 
 class AddingWalletPage extends StatefulWidget {
   @override
@@ -11,6 +12,20 @@ class AddingWalletPageState extends State<AddingWalletPage> {
 
   String name;
   double amount;
+
+  IconData icon;
+
+  void chooseIcon() async{
+
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ChoosingIconForWallet(),),);
+
+    setState((){
+      if(result != null){
+        icon = result;
+      }
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +40,11 @@ class AddingWalletPageState extends State<AddingWalletPage> {
                   child: TextFormField(
                     decoration: InputDecoration(
                         prefixIcon: IconButton(
-                          icon: Icon(Icons.account_balance_wallet),
-                          onPressed: (){},
+                          icon: CircleAvatar(
+                            child: Icon(icon == null ? Icons.help_outline : icon),
+                            backgroundColor: Colors.green,
+                          ),
+                          onPressed: chooseIcon,
                         ),
                         labelText: "Wallet name",
                     ),
@@ -78,7 +96,7 @@ class AddingWalletPageState extends State<AddingWalletPage> {
                                 return;
                               }
                               _formKey.currentState.save();
-                              final Wallet result = Wallet(name, amount);
+                              final Wallet result = Wallet(name, amount, icon: icon);
                               Navigator.pop(context, result);
                             },
                           )

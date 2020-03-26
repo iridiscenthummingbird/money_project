@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../Wallet.dart';
+import 'ChoosingIconForWallet.dart';
 
 class EditingWalletPage extends StatefulWidget {
   final Wallet wallet;
@@ -10,13 +11,27 @@ class EditingWalletPage extends StatefulWidget {
 
 class EditingWalletPageState extends State<EditingWalletPage> {
   final Wallet wallet;
-
+  
   EditingWalletPageState(this.wallet);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String name;
   double amount;
+
+  IconData icon;
+
+  void chooseIcon() async{
+
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ChoosingIconForWallet(),),);
+
+    setState((){
+      if(result != null){
+        icon = result;
+      }
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +45,13 @@ class EditingWalletPageState extends State<EditingWalletPage> {
                   padding: EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.account_balance_wallet),
+                        prefixIcon: IconButton(
+                          icon: CircleAvatar(
+                            child: Icon(icon == null ? wallet.icon : icon),
+                            backgroundColor: Colors.green,
+                          ),
+                          onPressed: chooseIcon,
+                        ),
                         labelText: "Wallet name",
                             ),
                     initialValue: wallet.name,
@@ -82,7 +103,7 @@ class EditingWalletPageState extends State<EditingWalletPage> {
                                 return;
                               }
                               _formKey.currentState.save();
-                              final Wallet result = Wallet(name, amount);
+                              final Wallet result = Wallet(name, amount, icon: icon);
                               Navigator.pop(context, result);
                             },
                           )
