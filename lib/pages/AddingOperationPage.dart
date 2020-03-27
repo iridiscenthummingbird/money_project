@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_project/Category.dart';
 import 'package:money_project/Operation.dart';
-
-import '../Categories.dart';
 import '../Wallet.dart';
+import 'ChoosingCategory.dart';
 
 class AddingOperationPage extends StatefulWidget {
   @override
@@ -34,6 +33,20 @@ class AddingOperationPageState extends State<AddingOperationPage> {
     Wallet("Wallet", 500.0),
     Wallet("Card", 1000.0, icon: Icons.credit_card)
   ];
+
+  void chooseCategory() async{
+
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ChoosingCategory(),),);
+
+    setState((){
+      if(result != null){
+        category = result;
+        txt.text = category.name;
+      }
+    });
+
+  }
+
 
   DateTime _date = DateTime.now();
 
@@ -97,14 +110,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
                 readOnly: true,
-                onTap: () {
-                  setState(() {
-                    category = isOutcome
-                        ? Categories.outcomeList[1]
-                        : Categories.incomeList[2];
-                    txt.text = category.name;
-                  });
-                },
+                onTap: chooseCategory,
                 controller: txt,
                 validator: (String value) {
                     if (value.isEmpty) {
