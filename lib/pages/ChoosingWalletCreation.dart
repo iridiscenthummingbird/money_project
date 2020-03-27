@@ -13,6 +13,11 @@ class ChoosingWalletCreationState extends State<ChoosingWalletCreation> {
     Navigator.pop(context, result);
   }
 
+  void addLinked() async {
+   final result = await Navigator.pushNamed(context, '/addingLinkedWalletPage');
+   Navigator.pop(context, result);
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +52,7 @@ class ChoosingWalletCreationState extends State<ChoosingWalletCreation> {
               height: 35.0,
               color: Colors.green,
               child: FlatButton(
-                onPressed: (){},
+                onPressed: addLinked,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
