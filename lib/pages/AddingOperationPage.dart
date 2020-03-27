@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_project/Category.dart';
 import 'package:money_project/Operation.dart';
+import 'package:money_project/pages/ChoosingWallet.dart';
 import '../Wallet.dart';
 import 'ChoosingCategory.dart';
 
@@ -47,6 +48,18 @@ class AddingOperationPageState extends State<AddingOperationPage> {
 
   }
 
+  void chooseWallet() async{
+
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ChoosingWallet(),),);
+
+    setState((){
+      if(result != null){
+        wallet = result;
+        txtWallet.text = wallet.name;
+      }
+    });
+
+  }
 
   DateTime _date = DateTime.now();
 
@@ -172,13 +185,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
                 readOnly: true,
-                onTap: () {
-                  setState(() {
-                    selectedWallet = listOfWallets[1];
-                    wallet = selectedWallet;
-                    txtWallet.text = selectedWallet.name;
-                  });
-                },
+                onTap: chooseWallet,
                 validator: (String value) {
                     if (value.isEmpty) {
                       return 'Wallet is Required';
@@ -192,7 +199,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: "Wallet",
                     prefixIcon: Icon(
-                      selectedWallet == null ? Icons.help : selectedWallet.icon,
+                      wallet == null ? Icons.help : wallet.icon,
                       size: 30.0,
                     )),
               ),
