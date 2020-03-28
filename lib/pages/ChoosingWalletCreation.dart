@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:money_project/pages/TokenInputPage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChoosingWalletCreation extends StatefulWidget {
   @override
@@ -11,6 +13,15 @@ class ChoosingWalletCreationState extends State<ChoosingWalletCreation> {
 
     final result = await Navigator.pushNamed(context, '/addingWalletPage');
     Navigator.pop(context, result);
+  }
+  
+  void addLinked() async{
+
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => TokenInputPage()));
+    Navigator.pop(context);
+    Navigator.pop(context, result);
+    print('first pop');
+
   }
 
   @override
@@ -47,7 +58,37 @@ class ChoosingWalletCreationState extends State<ChoosingWalletCreation> {
               height: 35.0,
               color: Colors.green,
               child: FlatButton(
-                onPressed: (){},
+                onPressed: (){
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: Text("Token"),
+                      content: Text("Copy your token on https://api.monobank.ua"),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          child: Text('Back'),
+                        ),
+                        FlatButton(
+                          child: Text('Go to website'),
+                          onPressed: () async{
+                            const String url = "https://api.monobank.ua/";
+                            if(await canLaunch(url)){
+                              launch(url);
+                              addLinked();
+                              //Navigator.pop(context);
+                              print('second pop');
+
+                            }
+                          },
+                        )
+                      ],
+                    ),
+                    barrierDismissible: false
+                  );
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[

@@ -14,22 +14,22 @@ class OperationPageState extends State<OperationPage> {
   static Wallet wal = Wallet("Card", 123);
 
   List<Operation> operations = [
-    Operation(10.0, Categories.incomeList[1], DateTime(2020, 1, 5), Wallet("Wallet", 500.0)),
-    Operation(20.5, Categories.incomeList[0], DateTime(2020, 2, 3), Wallet("Wallet", 500.0)),
+    Operation(10.0, Categories.incomeList[1], DateTime(2020, 1, 5),
+        Wallet("Wallet", 500.0)),
+    Operation(20.5, Categories.incomeList[0], DateTime(2020, 2, 3),
+        Wallet("Wallet", 500.0)),
     Operation(20.5, Categories.outcomeList[1], DateTime(2020, 2, 3), wal),
   ];
 
-  void add() async{
-
+  void add() async {
     var result = await Navigator.pushNamed(context, '/addingOperationPage');
-    
+
     setState(() {
-      if(result != null){
+      if (result != null) {
         operations.add(result);
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,25 +45,35 @@ class OperationPageState extends State<OperationPage> {
               '\n' +
               operation.wallet.name),
           leading: CircleAvatar(
-              child: Icon(operation.category.icon),
-              foregroundColor: Colors.green,
-              backgroundColor: Colors.grey[300],
+            child: Icon(operation.category.icon),
+            foregroundColor: Colors.green,
+            backgroundColor: Colors.grey[300],
           ),
           isThreeLine: true,
           trailing: Text(
-            (Categories.outcomeList.indexWhere((i) => i == operation.category) != -1 ? '-' : '+') + operation.amount.toString(),
+            (Categories.outcomeList
+                            .indexWhere((i) => i == operation.category) !=
+                        -1
+                    ? '-'
+                    : '+') +
+                operation.amount.toString(),
             style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
-              color: Categories.outcomeList.indexWhere((i) => i == operation.category) != -1 ? Colors.red : Colors.green
-            ),
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+                color: Categories.outcomeList
+                            .indexWhere((i) => i == operation.category) !=
+                        -1
+                    ? Colors.red
+                    : Colors.green),
           ),
           onTap: () {},
         );
       }).toList()),
       drawer: MyDrawer(),
       floatingActionButton: FloatingActionButton(
-        onPressed: add,
+        onPressed: (){
+          add();
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.green,
       ),
