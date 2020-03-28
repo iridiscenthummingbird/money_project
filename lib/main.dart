@@ -5,7 +5,6 @@ import 'pages/ChoosingWalletCreation.dart';
 import 'pages/WalletPage.dart';
 import 'pages/OperationPage.dart';
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

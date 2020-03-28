@@ -71,7 +71,7 @@ class OperationPageState extends State<OperationPage> {
       }).toList()),
       drawer: MyDrawer(),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           add();
         },
         child: Icon(Icons.add),

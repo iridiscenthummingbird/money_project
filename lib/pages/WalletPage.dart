@@ -17,7 +17,8 @@ class WalletPageState extends State<WalletPage> {
 
   List<LinkedWallet> listOfLinkedWallets = [
     LinkedWallet("Linked Wallet", 500.0, 'sfsdfsd', 'dsfdf'),
-    LinkedWallet("Linked Card", 1000.0, 'sdfsdf', 'sdfsdfsdf', icon: Icons.credit_card)
+    LinkedWallet("Linked Card", 1000.0, 'sdfsdf', 'sdfsdfsdf',
+        icon: Icons.credit_card)
   ];
   void delete(dynamic val) {
     setState(() => listOfWallets.removeWhere((data) => data == val));
@@ -39,9 +40,10 @@ class WalletPageState extends State<WalletPage> {
       }
     });
   }
-  
+
   void addLinked() async {
-    final result =  await Navigator.pushNamed(context, '/choosingWalletCreation');
+    final result =
+        await Navigator.pushNamed(context, '/choosingWalletCreation');
 
     setState(() {
       if (result != null) {
@@ -56,10 +58,9 @@ class WalletPageState extends State<WalletPage> {
 
     setState(() {
       if (result != null) {
-        if(result is LinkedWallet) {
+        if (result is LinkedWallet) {
           listOfLinkedWallets.add(result);
-        }
-        else {
+        } else {
           listOfWallets.add(result);
         }
       }
@@ -124,7 +125,7 @@ class WalletPageState extends State<WalletPage> {
                     ));
               }).toList()),
               ListView(
-                children: listOfLinkedWallets.map((Wallet wallet) {
+                  children: listOfLinkedWallets.map((Wallet wallet) {
                 return ListTile(
                     title: Text(wallet.name),
                     subtitle: Text('\$' + wallet.amount.toString()),

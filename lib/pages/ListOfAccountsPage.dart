@@ -38,8 +38,13 @@ class ListOfAccountsPageState extends State<ListOfAccountsPage> {
       body: ListView(
           children: list.map((Account account) {
         return ListTile(
-          onTap: (){
-            LinkedWallet linkedWallet = LinkedWallet(account.maskedPan, account.balance.roundToDouble(), APIController.currentToken, account.id, icon: Icons.credit_card);
+          onTap: () {
+            LinkedWallet linkedWallet = LinkedWallet(
+                account.maskedPan,
+                account.balance.roundToDouble(),
+                APIController.currentToken,
+                account.id,
+                icon: Icons.credit_card);
             Navigator.pop(context, linkedWallet);
           },
           title: Text(account.maskedPan),

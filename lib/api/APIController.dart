@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:money_project/api/CurrencyInfo.dart';
+import 'package:money_project/api/StatementItems.dart';
 import 'package:money_project/api/UserInfo.dart';
 
 class APIController {
@@ -44,10 +45,47 @@ class APIController {
     String token = 'u3GJtKUmOzZiGU51FlQlGdPLUCGrO7DzQv9zH9gUC7Zo';
     var response = await http.get(url, headers: {'X-Token': token});
     var currenciesJson = json.decode(response.body);
-    
     var res = UserInfo.fromJson(currenciesJson);
     userInfo = UserInfo.fromJson(currenciesJson);
-
+    print(userInfo.accounts[0].maskedPan);
     return res;
   }
+
+
+  static Future<List<StatementItems>> fetchStatementItems() async{
+    var account = userInfo.accounts[0].id;
+    int from = 1583020800;
+    var url = 'https://api.monobank.ua/personal/statement/$account/$from/';
+    print(url);
+    String token = 'u3GJtKUmOzZiGU51FlQlGdPLUCGrO7DzQv9zH9gUC7Zo';
+    var response = await http.get(url, headers: {'X-Token': token});
+
+    var list = List<StatementItems>();
+
+    if (response.statusCode == 200) {
+      var statementsJson = json.decode(response.body);
+      for (var statementJson in statementsJson) {
+        list.add(StatementItems.fromJson(statementJson));
+      }
+    }
+    else print("error");
+    print(list[0].id);
+    for (StatementItems i in list) {
+      print(i.id.toString() +
+          ' ' +
+          i.time.toString() +
+          ' ' +
+          i.description.toString() +
+          ' ' +
+          i.mcc.toString() +
+          ' ' +
+          i.hold.toString() +
+          ' ' +
+          i.amount.toString());
+    }
+
+  return list;
+    
+  }
 }
+
