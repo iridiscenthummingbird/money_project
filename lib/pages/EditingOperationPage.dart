@@ -1,35 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:money_project/Category.dart';
 import 'package:money_project/Operation.dart';
-import 'package:money_project/pages/ChoosingWallet.dart';
-import '../Wallet.dart';
 import 'ChoosingCategory.dart';
 
-class AddingOperationPage extends StatefulWidget {
+class EditingOperationPage extends StatefulWidget {
+  final Operation operation;
+  EditingOperationPage(this.operation);
   @override
-  State<StatefulWidget> createState() => AddingOperationPageState();
+  EditingOperationPageState createState() =>
+      EditingOperationPageState(operation);
 }
 
-class AddingOperationPageState extends State<AddingOperationPage> {
+class EditingOperationPageState extends State<EditingOperationPage> {
+  static Operation operation;
+  EditingOperationPageState(var val) {
+    operation = val;
+  }
+
+  var txtCat = TextEditingController();
+  var txtNote = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  double amount;
-  Category category;
-  String note;
-  DateTime date;
-  Wallet wallet;
-
-  var txt = TextEditingController();
-  var txtDate = TextEditingController();
-  var txtWallet = TextEditingController();
-
-  bool isOutcome = true;
-
-  List<Wallet> listOfWallets = [
-    Wallet("Wallet", 500.0),
-    Wallet("Card", 1000.0, icon: Icons.credit_card)
-  ];
 
   void chooseCategory() async {
     final result = await Navigator.push(
@@ -41,53 +32,26 @@ class AddingOperationPageState extends State<AddingOperationPage> {
 
     setState(() {
       if (result != null) {
-        category = result;
-        txt.text = category.name;
+        operation.category = result;
+        txtCat.text = operation.category.name;
       }
     });
   }
 
-  void chooseWallet() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ChoosingWallet(),
-      ),
-    );
-
+  @override
+  void initState() {
     setState(() {
-      if (result != null) {
-        wallet = result;
-        txtWallet.text = wallet.name;
-      }
+      txtCat.text = operation.category.name;
+      txtNote.text = operation.note;
     });
+    super.initState();
   }
-
-  DateTime _date = DateTime.now();
-
-  Future<Null> selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: _date,
-        firstDate: DateTime(1970),
-        lastDate: DateTime(2100));
-
-    if (picked != null) {
-      setState(() {
-        _date = picked;
-        date = _date;
-        txtDate.text = DateFormat('dd-MM-yyyy').format(_date).toString();
-      });
-    }
-  }
-
-  Wallet selectedWallet;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Adding Operation Page"),
+        title: Text("Editing Operation Page"),
       ),
       body: Form(
         key: _formKey,
@@ -98,43 +62,25 @@ class AddingOperationPageState extends State<AddingOperationPage> {
               padding:
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  style: TextStyle(
-                    fontSize: 32,
-                  ),
-                  decoration: InputDecoration(
-                      labelStyle: TextStyle(fontSize: 14),
-                      labelText: "Amount",
-                      prefixIcon: Icon(Icons.keyboard)),
-                  validator: (String value) {
-                    if (value.isEmpty) {
-                      return 'Amount is Required';
-                    } else if (double.tryParse(value) == null) {
-                      return 'Amount should be number';
-                    } else if (double.parse(value) < 0.0) {
-                      return 'Amount should be more than 0';
-                    } else
-                      return null;
-                  },
-                  onSaved: (String value) {
-                    amount = double.parse(value);
-                  }),
+                readOnly: true,
+                initialValue: operation.amount.toString(),
+                style: TextStyle(
+                  fontSize: 32,
+                ),
+                decoration: InputDecoration(
+                    labelStyle: TextStyle(fontSize: 14),
+                    labelText: "Amount",
+                    prefixIcon: Icon(Icons.keyboard)),
+              ),
             ),
             Container(
               //CATEGORY
               padding:
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
+                controller: txtCat,
                 readOnly: true,
                 onTap: chooseCategory,
-                controller: txt,
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Category is Required';
-                  } else
-                    return null;
-                },
-                onSaved: (String val) {},
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -142,8 +88,9 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: "Category",
                     prefixIcon: Icon(
-                      category == null ? Icons.help : category.icon,
+                      operation.category.icon,
                       size: 30.0,
+                      color: Colors.green,
                     )),
               ),
             ),
@@ -152,12 +99,13 @@ class AddingOperationPageState extends State<AddingOperationPage> {
               padding:
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
+                controller: txtNote,
                 decoration: InputDecoration(
                     labelText: "Note",
                     prefixIcon: Icon(Icons.subject, size: 30.0)),
                 maxLines: 2,
                 onSaved: (String val) {
-                  note = val;
+                  operation.note = val;
                 },
               ),
             ),
@@ -166,15 +114,10 @@ class AddingOperationPageState extends State<AddingOperationPage> {
               padding:
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
+                initialValue: DateFormat('dd-MM-yyyy')
+                    .format(operation.dateTime)
+                    .toString(),
                 readOnly: true,
-                onTap: () => selectDate(context),
-                controller: txtDate,
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Date is Required';
-                  } else
-                    return null;
-                },
                 decoration: InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: "Date",
@@ -190,14 +133,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
               child: TextFormField(
                 readOnly: true,
-                onTap: chooseWallet,
-                validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Wallet is Required';
-                  } else
-                    return null;
-                },
-                controller: txtWallet,
+                initialValue: operation.wallet.name,
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -205,8 +141,9 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                     labelStyle: TextStyle(fontSize: 14),
                     labelText: "Wallet",
                     prefixIcon: Icon(
-                      wallet == null ? Icons.help : wallet.icon,
+                      operation.wallet.icon,
                       size: 30.0,
+                      color: Colors.green,
                     )),
               ),
             ),
@@ -228,13 +165,10 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                               return;
                             }
                             _formKey.currentState.save();
-                            if (note.trim() == '') {
-                              note = null;
+                            if (operation.note.trim() == '') {
+                              operation.note = null;
                             }
-                            final Operation result = Operation(
-                                amount, category, date, wallet,
-                                note: note);
-                            Navigator.pop(context, result);
+                            Navigator.pop(context, operation);
                           },
                         ))))
           ],

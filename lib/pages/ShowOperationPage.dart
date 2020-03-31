@@ -3,6 +3,7 @@ import 'package:money_project/Operation.dart';
 import 'package:intl/intl.dart';
 
 import '../Categories.dart';
+import 'EditingOperationPage.dart';
 
 class ShowOperationPage extends StatefulWidget {
   final Operation operation;
@@ -12,14 +13,23 @@ class ShowOperationPage extends StatefulWidget {
 }
 
 class ShowOperationPageState extends State<ShowOperationPage> {
-  final Operation operation;
+  Operation operation;
   ShowOperationPageState(this.operation);
+
+  void edit() async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditingOperationPage(operation)));
+    Navigator.pop(context, result);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Operation'),
-        actions: <Widget>[IconButton(icon: Icon(Icons.edit), onPressed: () {})],
+        actions: <Widget>[IconButton(icon: Icon(Icons.edit), onPressed: edit)],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,20 +110,20 @@ class ShowOperationPageState extends State<ShowOperationPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(10),
-                      child: Icon(operation.note != null ? Icons.subject : null, color: Colors.grey)),
-                Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(operation.note == null ? '' : operation.note),  
-                )
-              ],
-            )
-          ) 
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Icon(operation.note != null ? Icons.subject : null,
+                          color: Colors.grey)),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(operation.note == null ? '' : operation.note),
+                  )
+                ],
+              ))
         ],
       ),
     );

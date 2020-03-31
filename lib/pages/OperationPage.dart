@@ -67,9 +67,18 @@ class OperationPageState extends State<OperationPage> {
                     ? Colors.red
                     : Colors.green),
           ),
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) => ShowOperationPage(operation)));
+          onTap: () async {
+            final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ShowOperationPage(operation)));
+            int ind = operations.indexOf(operation);
+
+            if (result != null) {
+              setState(() {
+                operations.replaceRange(ind, ind + 1, [result]);
+              });
+            }
           },
         );
       }).toList()),
