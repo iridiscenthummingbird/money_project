@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_project/Categories.dart';
+import 'package:money_project/pages/ShowOperationPage.dart';
 import '../MyDrawer.dart';
 import '../Operation.dart';
 import '../Wallet.dart';
@@ -66,7 +67,10 @@ class OperationPageState extends State<OperationPage> {
                     ? Colors.red
                     : Colors.green),
           ),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) => ShowOperationPage(operation)));
+          },
         );
       }).toList()),
       drawer: MyDrawer(),
