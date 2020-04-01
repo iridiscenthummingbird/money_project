@@ -36,7 +36,7 @@ class MyDrawer extends StatelessWidget{
               title: Text("Statistics"),
               leading: Icon(Icons.show_chart),
               onTap: (){
-                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(context, '/chartPage', (Route<dynamic> route)=> false);
               },
             ),
             Divider(),
