@@ -8,6 +8,7 @@ class ChoosingWalletCreation extends StatefulWidget {
 }
 
 class ChoosingWalletCreationState extends State<ChoosingWalletCreation> {
+
   void add() async {
     final result = await Navigator.pushNamed(context, '/addingWalletPage');
     Navigator.pop(context, result);
@@ -104,3 +105,4 @@ class ChoosingWalletCreationState extends State<ChoosingWalletCreation> {
     );
   }
 }
+

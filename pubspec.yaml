@@ -22,6 +22,8 @@ dependencies:
   validators: ^2.0.0+1
   intl: ^0.16.1
   http: ^0.12.0+4
+  sqflite: any
+  path_provider: any 
   flutter:
     sdk: flutter
     

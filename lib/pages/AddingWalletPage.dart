@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/Wallet.dart';
+import 'package:money_project/db/database.dart';
+import 'package:money_project/iconsList.dart';
 import 'package:money_project/pages/ChoosingIconForWallet.dart';
 
 class AddingWalletPage extends StatefulWidget {
@@ -13,7 +15,7 @@ class AddingWalletPageState extends State<AddingWalletPage> {
   String name;
   double amount;
 
-  IconData icon;
+  IconData icon = Icons.help_outline;
 
   void chooseIcon() async{
 
@@ -97,6 +99,7 @@ class AddingWalletPageState extends State<AddingWalletPage> {
                               }
                               _formKey.currentState.save();
                               final Wallet result = Wallet(name, amount, icon: icon);
+                              DBProvider.db.insertWal(result);
                               Navigator.pop(context, result);
                             },
                           )

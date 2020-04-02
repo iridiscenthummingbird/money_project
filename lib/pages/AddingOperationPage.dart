@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_project/Category.dart';
 import 'package:money_project/Operation.dart';
+import 'package:money_project/db/database.dart';
 import 'package:money_project/pages/ChoosingWallet.dart';
 import '../Wallet.dart';
 import 'ChoosingCategory.dart';
@@ -26,21 +27,14 @@ class AddingOperationPageState extends State<AddingOperationPage> {
 
   bool isOutcome = true;
 
-  List<Wallet> listOfWallets = [
-    Wallet("Wallet", 500.0),
-    Wallet("Card", 1000.0, icon: Icons.credit_card)
-  ];
+  List<Wallet> listOfWallets = [];
 
-  void chooseCategory() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ChoosingCategory(),
-      ),
-    );
+  void chooseCategory() async{
 
-    setState(() {
-      if (result != null) {
+    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ChoosingCategory(),),);
+
+    setState((){
+      if(result != null){
         category = result;
         txt.text = category.name;
       }
@@ -61,6 +55,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
         txtWallet.text = wallet.name;
       }
     });
+
   }
 
   DateTime _date = DateTime.now();
@@ -129,12 +124,11 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                 onTap: chooseCategory,
                 controller: txt,
                 validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Category is Required';
-                  } else
-                    return null;
-                },
-                onSaved: (String val) {},
+                    if (value.isEmpty) {
+                      return 'Category is Required';
+                    } else return null;
+                  },
+                  onSaved: (String val){},
                 style: TextStyle(
                   fontSize: 18,
                 ),
@@ -170,10 +164,9 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                 onTap: () => selectDate(context),
                 controller: txtDate,
                 validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Date is Required';
-                  } else
-                    return null;
+                    if (value.isEmpty) {
+                      return 'Date is Required';
+                    } else return null;
                 },
                 decoration: InputDecoration(
                     labelStyle: TextStyle(fontSize: 14),
@@ -192,10 +185,9 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                 readOnly: true,
                 onTap: chooseWallet,
                 validator: (String value) {
-                  if (value.isEmpty) {
-                    return 'Wallet is Required';
-                  } else
-                    return null;
+                    if (value.isEmpty) {
+                      return 'Wallet is Required';
+                    } else return null;
                 },
                 controller: txtWallet,
                 style: TextStyle(

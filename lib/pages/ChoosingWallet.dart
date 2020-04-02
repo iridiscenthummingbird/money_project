@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../db/database.dart';
 import '../Wallet.dart';
 
 class ChoosingWallet extends StatefulWidget {
@@ -9,7 +10,19 @@ class ChoosingWallet extends StatefulWidget {
 
 class ChoosingWalletState extends State<ChoosingWallet> {
 
-  List<Wallet> listOfWallets = [Wallet("Wallet", 500.0), Wallet("Card", 1000.0, icon: Icons.credit_card)];
+  List<Wallet> listOfWallets = [];
+
+  void getListOfWallets() async {
+    listOfWallets       = await DBProvider.db.getWalList(0);
+    setState(() { });
+  }
+
+  @override
+  void initState(){
+    getListOfWallets();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

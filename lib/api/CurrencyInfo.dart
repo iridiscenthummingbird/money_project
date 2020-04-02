@@ -5,7 +5,7 @@ class CurrencyInfo {
   double rateSell;
   double rateBuy;
   double rateCross;
-
+  
   CurrencyInfo(
       {this.currencyCodeA,
       this.currencyCodeB,

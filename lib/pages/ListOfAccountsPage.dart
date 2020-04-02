@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:money_project/LinkedWallet.dart';
+import 'package:money_project/Wallet.dart';
 import 'package:money_project/api/APIController.dart';
 import 'package:money_project/api/Account.dart';
+import 'package:money_project/db/database.dart';
 
 class ListOfAccountsPage extends StatefulWidget {
   @override
@@ -38,13 +39,9 @@ class ListOfAccountsPageState extends State<ListOfAccountsPage> {
       body: ListView(
           children: list.map((Account account) {
         return ListTile(
-          onTap: () {
-            LinkedWallet linkedWallet = LinkedWallet(
-                account.maskedPan,
-                account.balance.roundToDouble(),
-                APIController.currentToken,
-                account.id,
-                icon: Icons.credit_card);
+          onTap: (){
+            Wallet linkedWallet = Wallet(account.maskedPan, account.balance.roundToDouble(), token: APIController.currentToken, account: account.id, icon: Icons.credit_card);
+            DBProvider.db.insertWal(linkedWallet);
             Navigator.pop(context, linkedWallet);
           },
           title: Text(account.maskedPan),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/LinkedWallet.dart';
 import 'package:money_project/Wallet.dart';
+import 'package:money_project/db/database.dart';
 import '../MyDrawer.dart';
 import 'EditingWalletPage.dart';
 
@@ -10,18 +11,19 @@ class WalletPage extends StatefulWidget {
 }
 
 class WalletPageState extends State<WalletPage> {
-  List<Wallet> listOfWallets = [
-    Wallet("Wallet", 500.0),
-    Wallet("Card", 1000.0, icon: Icons.credit_card)
-  ];
 
-  List<LinkedWallet> listOfLinkedWallets = [
-    LinkedWallet("Linked Wallet", 500.0, 'sfsdfsd', 'dsfdf'),
-    LinkedWallet("Linked Card", 1000.0, 'sdfsdf', 'sdfsdfsdf',
-        icon: Icons.credit_card)
-  ];
+  List<Wallet> listOfWallets = [];
+  List<Wallet> listOfLinkedWallets = [];
+
   void delete(dynamic val) {
     setState(() => listOfWallets.removeWhere((data) => data == val));
+    DBProvider.db.deleteWal(val);
+  }
+
+  void refresh() async {
+    listOfWallets       = await DBProvider.db.getWalList(0);
+    listOfLinkedWallets = await DBProvider.db.getWalList(1);
+    setState(() { });
   }
 
   void edit(dynamic val) async {
@@ -40,10 +42,10 @@ class WalletPageState extends State<WalletPage> {
       }
     });
   }
-
+  
   void addLinked() async {
-    final result =
-        await Navigator.pushNamed(context, '/choosingWalletCreation');
+    final result =  await Navigator.pushNamed(context, '/choosingWalletCreation');
+
 
     setState(() {
       if (result != null) {
@@ -53,18 +55,27 @@ class WalletPageState extends State<WalletPage> {
   }
 
   void add() async {
-    final result =
+    final dynamic result =
         await Navigator.pushNamed(context, '/choosingWalletCreation');
 
     setState(() {
       if (result != null) {
-        if (result is LinkedWallet) {
+        if(result.token != null) {
           listOfLinkedWallets.add(result);
-        } else {
+        }
+        else {
           listOfWallets.add(result);
         }
+
       }
     });
+  }
+
+  @override
+  void initState(){
+    refresh();
+    
+    super.initState();
   }
 
   @override
@@ -125,7 +136,7 @@ class WalletPageState extends State<WalletPage> {
                     ));
               }).toList()),
               ListView(
-                  children: listOfLinkedWallets.map((Wallet wallet) {
+                children: listOfLinkedWallets.map((Wallet wallet) {
                 return ListTile(
                     title: Text(wallet.name),
                     subtitle: Text('\$' + wallet.amount.toString()),

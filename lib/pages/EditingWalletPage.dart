@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_project/db/database.dart';
 import '../Wallet.dart';
 import 'ChoosingIconForWallet.dart';
 
@@ -105,6 +106,7 @@ class EditingWalletPageState extends State<EditingWalletPage> {
                               }
                               _formKey.currentState.save();
                               final Wallet result = Wallet(name, amount, icon: icon);
+                              DBProvider.db.updateWal(result);
                               Navigator.pop(context, result);
                             },
                           )
