@@ -3,6 +3,7 @@ import 'package:money_project/pages/AddingOperationPage.dart';
 import 'package:money_project/pages/AddingWalletPage.dart';
 import 'package:money_project/pages/ChartsPage.dart';
 import 'pages/ChoosingWalletCreation.dart';
+import 'pages/NewChartsPage.dart';
 import 'pages/WalletPage.dart';
 import 'pages/OperationPage.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         '/addingWalletPage': (context) => AddingWalletPage(),
         '/addingOperationPage': (context) => AddingOperationPage(),
         '/choosingWalletCreation': (context) => ChoosingWalletCreation(),
-        '/chartPage': (context) => ChartsPage()
+        '/chartPage': (context) => NewChartsPage()
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.green),

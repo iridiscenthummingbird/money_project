@@ -182,7 +182,7 @@ class DBProvider {
 
   Future<void> updateOp(Operation operation) async {
     final db = await database;
-    await db.update('Operations', operation.toMap());
+    await db.update('Operations', operation.toMap(), where: 'id = ?', whereArgs: [operation.dbID]);
   }
 
   Future<List<Operation>> getOpList() async {
@@ -242,13 +242,13 @@ class DBProvider {
     );
 
     return List.generate(stat.length, (i){
-        String catName; double amount;
-        cat == 0 ? catName = Categories.outcomeList[stat[i]['catInd']].name : catName = Categories.incomeList[stat[i]['catInd']].name;
+        Category cate; double amount;
+        cat == 0 ? cate = Categories.outcomeList[stat[i]['catInd']] : cate = Categories.incomeList[stat[i]['catInd']];
         amount = stat[i]['amountSum'];
 
         return Sum(
-          catName,
-          amount
+          amount,
+          cat: cate
         );
       }
     );
@@ -266,8 +266,8 @@ class DBProvider {
     );
 
     List <Sum> res = [];
-    res.add( Sum('Income', maps[0]['amountSum'] ) );
-    res.add( Sum('Outcome', maps[1]['amountSum']) );
+    res.add( Sum(maps[0]['amountSum']));
+    res.add( Sum(maps[1]['amountSum']));
 
     return res;
   }

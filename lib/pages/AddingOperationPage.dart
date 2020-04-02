@@ -226,6 +226,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                             final Operation result = Operation(
                                 amount, category, date, wallet,
                                 note: note);
+                            DBProvider.db.insertOp(result);
                             Navigator.pop(context, result);
                           },
                         ))))

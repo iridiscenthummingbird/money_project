@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money_project/LinkedWallet.dart';
 import 'package:money_project/Wallet.dart';
 import 'package:money_project/db/database.dart';
 import '../MyDrawer.dart';
@@ -74,7 +73,7 @@ class WalletPageState extends State<WalletPage> {
   @override
   void initState(){
     refresh();
-    
+    //DBProvider.db.dropDB();
     super.initState();
   }
 

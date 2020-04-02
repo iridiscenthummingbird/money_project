@@ -105,6 +105,9 @@ class EditingWalletPageState extends State<EditingWalletPage> {
                                 return;
                               }
                               _formKey.currentState.save();
+                              if(icon == null){
+                                icon = wallet.icon;
+                              }
                               final Wallet result = Wallet(name, amount, icon: icon);
                               DBProvider.db.updateWal(result);
                               Navigator.pop(context, result);

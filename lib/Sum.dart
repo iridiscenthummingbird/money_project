@@ -1,5 +1,7 @@
+import 'package:money_project/Category.dart';
+
 class Sum {
-  String categoryName;
   double amount;
-  Sum(this.categoryName, this.amount);
+  Category cat;
+  Sum(this.amount, {this.cat});
 }

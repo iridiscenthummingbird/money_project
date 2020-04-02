@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_project/Operation.dart';
+import 'package:money_project/db/database.dart';
 import 'ChoosingCategory.dart';
 
 class EditingOperationPage extends StatefulWidget {
@@ -168,6 +169,7 @@ class EditingOperationPageState extends State<EditingOperationPage> {
                             if (operation.note.trim() == '') {
                               operation.note = null;
                             }
+                            DBProvider.db.updateOp(operation);
                             Navigator.pop(context, operation);
                           },
                         ))))
