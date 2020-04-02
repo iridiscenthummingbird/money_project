@@ -69,6 +69,7 @@ class EditingWalletPageState extends State<EditingWalletPage> {
                   padding: EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
                   child: TextFormField(
                     keyboardType: TextInputType.number,
+                    readOnly: true,
                     decoration: InputDecoration(
                         labelText: "Wallet amount",
                         prefixIcon: Icon(Icons.keyboard)

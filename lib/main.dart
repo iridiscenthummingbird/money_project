@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/pages/AddingOperationPage.dart';
 import 'package:money_project/pages/AddingWalletPage.dart';
+import 'package:money_project/pages/ChartsPage.dart';
 import 'pages/ChoosingWalletCreation.dart';
 import 'pages/WalletPage.dart';
 import 'pages/OperationPage.dart';
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
         '/walletPage': (context) => WalletPage(),
         '/addingWalletPage': (context) => AddingWalletPage(),
         '/addingOperationPage': (context) => AddingOperationPage(),
-        '/choosingWalletCreation': (context) => ChoosingWalletCreation()
+        '/choosingWalletCreation': (context) => ChoosingWalletCreation(),
+        '/chartPage': (context) => ChartsPage()
       },
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: Colors.green),

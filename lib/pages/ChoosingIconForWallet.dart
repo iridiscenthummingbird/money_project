@@ -7,6 +7,7 @@ class ChoosingIconForWallet extends StatefulWidget {
 }
 
 class ChoosingIconForWalletState extends State<ChoosingIconForWallet> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

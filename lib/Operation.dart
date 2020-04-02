@@ -1,7 +1,6 @@
 import 'package:money_project/Category.dart';
 import 'package:money_project/Wallet.dart';
 import 'package:money_project/db/database.dart';
-
 import 'Categories.dart';
 
 class Operation {

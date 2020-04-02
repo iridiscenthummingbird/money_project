@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_project/Categories.dart';
-
+import 'package:money_project/pages/ShowOperationPage.dart';
 import '../MyDrawer.dart';
 import '../Operation.dart';
 import '../Wallet.dart';
@@ -50,6 +50,7 @@ class OperationPageState extends State<OperationPage> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,12 +86,24 @@ class OperationPageState extends State<OperationPage> {
                     ? Colors.red
                     : Colors.green),
           ),
-          onTap: () {},
+          onTap: () async {
+            final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ShowOperationPage(operation)));
+            int ind = operations.indexOf(operation);
+
+            if (result != null) {
+              setState(() {
+                operations.replaceRange(ind, ind + 1, [result]);
+              });
+            }
+          },
         );
       }).toList()),
       drawer: MyDrawer(),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           add();
         },
         child: Icon(Icons.add),

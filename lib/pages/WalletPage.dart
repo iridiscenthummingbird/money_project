@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_project/LinkedWallet.dart';
 import 'package:money_project/Wallet.dart';
 import 'package:money_project/db/database.dart';
 import '../MyDrawer.dart';
@@ -10,23 +11,9 @@ class WalletPage extends StatefulWidget {
 }
 
 class WalletPageState extends State<WalletPage> {
-/*
-    List<Wallet> listOfWallets = [
-    Wallet("Wallet", 500.0),
-    Wallet("Card", 1000.0, icon: Icons.credit_card)
-  ];
-*/
-
-/*
-  List<LinkedWallet> listOfLinkedWallets = [
-    LinkedWallet("Linked Wallet", 500.0, 'sfsdfsd', 'dsfdf'),
-    LinkedWallet("Linked Card", 1000.0, 'sdfsdf', 'sdfsdfsdf', icon: Icons.credit_card)
-  ];
-*/
 
   List<Wallet> listOfWallets = [];
   List<Wallet> listOfLinkedWallets = [];
-
 
   void delete(dynamic val) {
     setState(() => listOfWallets.removeWhere((data) => data == val));
@@ -59,6 +46,7 @@ class WalletPageState extends State<WalletPage> {
   void addLinked() async {
     final result =  await Navigator.pushNamed(context, '/choosingWalletCreation');
 
+
     setState(() {
       if (result != null) {
         listOfWallets.add(result);
@@ -78,6 +66,7 @@ class WalletPageState extends State<WalletPage> {
         else {
           listOfWallets.add(result);
         }
+
       }
     });
   }

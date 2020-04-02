@@ -21,10 +21,6 @@ class AddingOperationPageState extends State<AddingOperationPage> {
   DateTime date;
   Wallet wallet;
 
-
-
-
-
   var txt = TextEditingController();
   var txtDate = TextEditingController();
   var txtWallet = TextEditingController();
@@ -43,15 +39,18 @@ class AddingOperationPageState extends State<AddingOperationPage> {
         txt.text = category.name;
       }
     });
-
   }
 
-  void chooseWallet() async{
+  void chooseWallet() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChoosingWallet(),
+      ),
+    );
 
-    final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => ChoosingWallet(),),);
-
-    setState((){
-      if(result != null){
+    setState(() {
+      if (result != null) {
         wallet = result;
         txtWallet.text = wallet.name;
       }
@@ -93,8 +92,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
               //AMOUNT
               padding:
                   EdgeInsets.all(6.0) + EdgeInsets.only(left: 20, right: 20),
-              child: 
-              TextFormField(
+              child: TextFormField(
                   keyboardType: TextInputType.number,
                   style: TextStyle(
                     fontSize: 32,
@@ -108,8 +106,10 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                       return 'Amount is Required';
                     } else if (double.tryParse(value) == null) {
                       return 'Amount should be number';
-                    }
-                    else return null;
+                    } else if (double.parse(value) < 0.0) {
+                      return 'Amount should be more than 0';
+                    } else
+                      return null;
                   },
                   onSaved: (String value) {
                     amount = double.parse(value);
@@ -150,7 +150,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                     labelText: "Note",
                     prefixIcon: Icon(Icons.subject, size: 30.0)),
                 maxLines: 2,
-                onSaved: (String val){
+                onSaved: (String val) {
                   note = val;
                 },
               ),
@@ -220,9 +220,12 @@ class AddingOperationPageState extends State<AddingOperationPage> {
                               return;
                             }
                             _formKey.currentState.save();
-                            print(amount.toString() + " " + category.toString() + " "  + " " + date.toString() + " " + wallet.toString());
-                            final Operation result = Operation(amount, category, date, wallet, note: note);
-                            DBProvider.db.insertOp(result);
+                            if (note.trim() == '') {
+                              note = null;
+                            }
+                            final Operation result = Operation(
+                                amount, category, date, wallet,
+                                note: note);
                             Navigator.pop(context, result);
                           },
                         ))))

@@ -1,13 +1,19 @@
-class Account{
+class Account {
   String id;
   int balance;
   int creditLimit;
   int currencyCode;
-  String cashbackType; 
+  String cashbackType;
   String maskedPan;
-  Account({this.id, this.balance, this.creditLimit, this.currencyCode, this.cashbackType, this.maskedPan});
+  Account(
+      {this.id,
+      this.balance,
+      this.creditLimit,
+      this.currencyCode,
+      this.cashbackType,
+      this.maskedPan});
 
-  Account.fromJson(Map<String, dynamic> json){
+  Account.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     balance = json['balance'];
     creditLimit = json['creditLimit'];
