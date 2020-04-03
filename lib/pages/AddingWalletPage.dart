@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/Wallet.dart';
 import 'package:money_project/db/database.dart';
-import 'package:money_project/iconsList.dart';
 import 'package:money_project/pages/ChoosingIconForWallet.dart';
 
 class AddingWalletPage extends StatefulWidget {

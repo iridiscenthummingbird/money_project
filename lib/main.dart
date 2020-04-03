@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/pages/AddingOperationPage.dart';
 import 'package:money_project/pages/AddingWalletPage.dart';
-import 'package:money_project/pages/ChartsPage.dart';
 import 'pages/ChoosingWalletCreation.dart';
 import 'pages/NewChartsPage.dart';
 import 'pages/WalletPage.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_project/Categories.dart';
+import 'package:money_project/api/APIController.dart';
 import 'package:money_project/pages/ShowOperationPage.dart';
 import '../MyDrawer.dart';
 import '../Operation.dart';
@@ -43,10 +44,27 @@ class OperationPageState extends State<OperationPage> {
     setState(() { });
   }
 
+
+  Future<Null> getrefresh() async{
+    return APIController.fetchStatementItems().then((List<Operation> list){
+      for(var i in list){
+        DBProvider.db.insertOp(i);
+      }
+      operations.addAll(list);
+      operations.sort((a,b)=> a.dateTime.isBefore(b.dateTime) ? 1 : 0);
+      setState(() {
+        
+      });
+    });
+  }
+
+
   @override
   void initState() {
     getListOfOperations();
     //DBProvider.db.test();
+    operations.sort((a,b)=> a.dateTime.isBefore(b.dateTime) ? 1 : 0);
+    APIController.setWallets();
     super.initState();
   }
 
@@ -57,7 +75,9 @@ class OperationPageState extends State<OperationPage> {
       appBar: AppBar(
         title: Text("Operations"),
       ),
-      body: ListView(
+      body: RefreshIndicator (
+        onRefresh: getrefresh,
+       child: ListView(
           children: operations.map((Operation operation) {
         return ListTile(
           title: Text(operation.category.name),
@@ -100,7 +120,7 @@ class OperationPageState extends State<OperationPage> {
             }
           },
         );
-      }).toList()),
+      }).toList())),
       drawer: MyDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_project/Wallet.dart';
+import 'package:money_project/api/APIController.dart';
 import 'package:money_project/db/database.dart';
 import '../MyDrawer.dart';
 import 'EditingWalletPage.dart';
@@ -56,7 +57,7 @@ class WalletPageState extends State<WalletPage> {
   void add() async {
     final dynamic result =
         await Navigator.pushNamed(context, '/choosingWalletCreation');
-
+    APIController.setWallets();
     setState(() {
       if (result != null) {
         if(result.token != null) {

@@ -1,13 +1,18 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:money_project/Categories.dart';
+import 'package:money_project/Operation.dart';
+import 'package:money_project/Wallet.dart';
 import 'package:money_project/api/CurrencyInfo.dart';
 import 'package:money_project/api/StatementItems.dart';
 import 'package:money_project/api/UserInfo.dart';
+import 'package:money_project/db/database.dart';
 
 class APIController {
   static String currentToken = 'u3GJtKUmOzZiGU51FlQlGdPLUCGrO7DzQv9zH9gUC7Zo';
 
-  static UserInfo userInfo;
+
+  static List<Wallet> wallets;
 
   static Future<List<CurrencyInfo>> fetchCurrencyInfo() async {
     var url = 'https://api.monobank.ua/bank/currency';
@@ -41,51 +46,55 @@ class APIController {
 
   static Future<UserInfo> fetchUserInfo() async {
     var url = 'https://api.monobank.ua/personal/client-info';
-
     String token = 'u3GJtKUmOzZiGU51FlQlGdPLUCGrO7DzQv9zH9gUC7Zo';
     var response = await http.get(url, headers: {'X-Token': token});
     var currenciesJson = json.decode(response.body);
     var res = UserInfo.fromJson(currenciesJson);
-    userInfo = UserInfo.fromJson(currenciesJson);
-    print(userInfo.accounts[0].maskedPan);
     return res;
   }
 
+  static setWallets() async {
+    wallets = await DBProvider.db.getWalList(1);
+  }
 
-  static Future<List<StatementItems>> fetchStatementItems() async{
-    var account = userInfo.accounts[0].id;
-    int from = 1583020800;
-    var url = 'https://api.monobank.ua/personal/statement/$account/$from/';
-    print(url);
-    String token = 'u3GJtKUmOzZiGU51FlQlGdPLUCGrO7DzQv9zH9gUC7Zo';
-    var response = await http.get(url, headers: {'X-Token': token});
+  static Future<List<Operation>> fetchStatementItems() async {
 
-    var list = List<StatementItems>();
+    int from = (DateTime.now().millisecondsSinceEpoch.roundToDouble() * 0.001 -
+            2680000.0)
+        .toInt();
 
-    if (response.statusCode == 200) {
-      var statementsJson = json.decode(response.body);
-      for (var statementJson in statementsJson) {
-        list.add(StatementItems.fromJson(statementJson));
+    var operations = List<Operation>();
+    for (Wallet wal in wallets) {
+      var url =
+          'https://api.monobank.ua/personal/statement/${wal.account}/$from/';
+      print(url);
+      String token = 'u3GJtKUmOzZiGU51FlQlGdPLUCGrO7DzQv9zH9gUC7Zo';
+      var response = await http.get(url, headers: {'X-Token': token});
+
+      var list = List<StatementItems>();
+
+      if (response.statusCode == 200) {
+        var statementsJson = json.decode(response.body);
+        for (var statementJson in statementsJson) {
+          list.add(StatementItems.fromJson(statementJson));
+        }
+        for (StatementItems i in list) {
+          print(i.time * 1000);
+          print(DateTime.fromMillisecondsSinceEpoch(i.time * 1000));
+          operations.add(Operation(
+              i.amount / 100,
+              i.amount > 0
+                  ? Categories.incomeList[0]
+                  : Categories.outcomeList[0],
+              DateTime.fromMillisecondsSinceEpoch(i.time * 1000),
+              wal,
+              note: i.description));
+        }
+      } else {
+        print("error");
+        print(response.body);
       }
     }
-    else print("error");
-    print(list[0].id);
-    for (StatementItems i in list) {
-      print(i.id.toString() +
-          ' ' +
-          i.time.toString() +
-          ' ' +
-          i.description.toString() +
-          ' ' +
-          i.mcc.toString() +
-          ' ' +
-          i.hold.toString() +
-          ' ' +
-          i.amount.toString());
-    }
-
-  return list;
-    
+    return operations;
   }
 }
-
