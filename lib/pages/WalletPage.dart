@@ -84,7 +84,7 @@ class WalletPageState extends State<WalletPage> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: Text("WalletPage"),
+            title: Text("Wallets"),
             bottom: TabBar(
               tabs: <Widget>[
                 Tab(

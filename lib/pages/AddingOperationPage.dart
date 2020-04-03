@@ -82,7 +82,7 @@ class AddingOperationPageState extends State<AddingOperationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Adding Operation Page"),
+        title: Text("Adding Operation"),
       ),
       body: Form(
         key: _formKey,

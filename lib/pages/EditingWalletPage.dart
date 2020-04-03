@@ -37,7 +37,7 @@ class EditingWalletPageState extends State<EditingWalletPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Editing Wallet Page")),
+        appBar: AppBar(title: Text("Editing Wallet")),
         body: Form(
           key: _formKey,
           child: ListView(

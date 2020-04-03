@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget{
-  final String name = "Dmytro Tretiakov";
+  final String name = "Name Surname";
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -12,8 +12,8 @@ class MyDrawer extends StatelessWidget{
                 backgroundColor: Colors.lightGreen[50],
                 child: Text(name[0], style: TextStyle(fontSize: 30.0, color: Colors.green),),
                 ),
-              accountEmail: Text("0508dima@gmail.com"),
-              accountName: Text("Dmytro Tretiakov"),
+              accountEmail: Text("usera@gmail.com"),
+              accountName: Text("Name Surname"),
               decoration: BoxDecoration(
                 color: Colors.green
               ),
@@ -39,14 +39,14 @@ class MyDrawer extends StatelessWidget{
                 Navigator.pushNamedAndRemoveUntil(context, '/chartPage', (Route<dynamic> route)=> false);
               },
             ),
-            Divider(),
-            ListTile(
-              title: Text("Settings"),
-              leading: Icon(Icons.settings),
-              onTap: (){
-                Navigator.pop(context);
-              },
-            )
+            // Divider(),
+            // ListTile(
+            //   title: Text("Settings"),
+            //   leading: Icon(Icons.settings),
+            //   onTap: (){
+            //     Navigator.pop(context);
+            //   },
+            // )
           ],
         ),
       );

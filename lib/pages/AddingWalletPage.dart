@@ -31,7 +31,7 @@ class AddingWalletPageState extends State<AddingWalletPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Adding Wallet Page")),
+        appBar: AppBar(title: Text("Adding Wallet")),
         body: Form(
           key: _formKey,
           child: ListView(

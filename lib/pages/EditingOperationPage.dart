@@ -52,7 +52,7 @@ class EditingOperationPageState extends State<EditingOperationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Editing Operation Page"),
+        title: Text("Editing Operation"),
       ),
       body: Form(
         key: _formKey,
